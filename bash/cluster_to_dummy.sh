@@ -2,7 +2,7 @@
 
 # script to change cluster parameter to 'DUMMY'
 # run as 'mqm' user
-# run script by typing command : $ ./remove_queues_from_cluster.sh $QMGR $CLUSNAME
+# run script by typing command : $ ./cluster_to_dummy.sh <QMGR> <CLUSNAME>
 
 # QUEUE MANAGER VARIABLE
 

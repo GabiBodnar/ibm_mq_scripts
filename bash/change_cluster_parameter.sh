@@ -2,7 +2,7 @@
 
 # script that changes existing cluster name to a new cluster name
 # run as 'mqm' user
-# run script by typing command : $ ./change_cluster_parameter.sh $QMGR $CLUSNAME   ----> where parameter $CLUSNAME is the NEW NAME of the cluster
+# run script by typing command : $ ./change_cluster_parameter.sh <QMGR> <CLUSNAME>   ----> where parameter $CLUSNAME is the NEW NAME of the cluster
 
 # queue manager variable
 QMGR=$1
@@ -20,8 +20,8 @@ fi
 
 # IF OUTPUT DIRECTORY DOES NOT EXIST, CREATE IT
 
-if [ ! -d /tmp/gabi ]; then
-    mkdir -p /tmp/gabi
+if [ ! -d /tmp/mqm ]; then
+    mkdir -p /tmp/mqm
 fi
 
 # LIST LOCAL QUEUES THAT ARE IN CLUSTER
@@ -30,7 +30,7 @@ echo "DIS QL (*) WHERE (CLUSTER NE '')" | runmqsc "${QMGR}" | grep "QUEUE(" | se
 
 # CHECK IF OUTPUT FILE HAS CONTENT
 
-if [[ ! -s "/tmp/gabi/queue_list.txt" ]]; then
+if [[ ! -s "/tmp/mqm/queue_list.txt" ]]; then
     echo "Output file is empty"
     exit 0
 fi
@@ -39,10 +39,10 @@ fi
 
 while read ql; do
 # change cluster to $CLUSNAME
-echo "ALTER QL(${ql}) CLUSTER("${CLUSNAME}")" | runmqsc "${QMGR}" >> /tmp/gabi/cluster_change_output.txt
-done < /tmp/gabi/queue_list.txt
+echo "ALTER QL(${ql}) CLUSTER("${CLUSNAME}")" | runmqsc "${QMGR}" >> /tmp/mqm/cluster_change_output.txt
+done < /tmp/mqm/queue_list.txt
 
 # REMOVE FILES
 
-rm /tmp/gabi/cluster_change_output.txt
-rm /tmp/gabi/queue_list.txt
+rm /tmp/mqm/cluster_change_output.txt
+rm /tmp/mqm/queue_list.txt
